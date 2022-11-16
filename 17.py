@@ -64,13 +64,10 @@ class BaseWallet(object):
         return(self.amount * self.exchange_rate)
 class RubbleWallet(BaseWallet):
     exchange_rate = 1
-    def __init__(self):
-        super().__init__()
+
 class DollarWallet(BaseWallet):
     exchange_rate = 60
-    def __init__(self):
-        super().__init__()
+
 class EuroWallet(BaseWallet):
     exchange_rate = 70
-    def __init__(self):
-        super().__init__()
+
