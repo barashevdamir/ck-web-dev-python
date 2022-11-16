@@ -12,13 +12,16 @@ class BaseWallet(object):
         """Функция, которая описывает прибавление к нашему объекту объекта other"""
         # если у нас оба объекта данного класса, сложим их атрибуты
         if isinstance(other, BaseWallet):
-            new_name = self.name
+            #new_name = self.name
             new_amount = self.amount + other.amount * (other.exchange_rate / self.exchange_rate)
+            self.amount = new_amount
         else:
             # а если второй объект не этого класса, то попробуем его привести к типу float
-            new_name = self.name
+            #new_name = self.name
             new_amount = self.amount + float(other)
-        return BaseWallet(new_name, new_amount)
+            self.amount = new_amount
+        #return BaseWallet(new_name, new_amount)
+        return self
     #def __radd__(self, other):
     #    BaseWallet.__radd__ = BaseWallet.__add__
     __radd__ = __add__
@@ -28,27 +31,33 @@ class BaseWallet(object):
         """Функция, которая описывает вычитание из нашего объекта объекта other"""
         # если у нас оба объекта данного класса, сложим их атрибуты
         if isinstance(other, BaseWallet):
-            new_name = self.name
+            #new_name = self.name
             new_amount = self.amount - other.amount * (other.exchange_rate / self.exchange_rate)
+            self.amount = new_amount
         else:
             # а если второй объект не этого класса, то попробуем его привести к типу float
-            new_name = self.name
+            #new_name = self.name
             new_amount = self.amount - float(other)
-        return BaseWallet(new_name, new_amount)
+            self.amount = new_amount
+        #return BaseWallet(new_name, new_amount)
+        return self
     __rsub__ = __sub__
     __isub__ = __sub__
     def __mul__(self, other):
         """Функция, которая описывает умножение нашего объекта на объект other"""
-        new_name = self.name
+        #new_name = self.name
         new_amount = self.amount * float(other)
-        return BaseWallet(new_name, new_amount)
+        self.amount = new_amount
+        #return BaseWallet(new_name, new_amount)
+        return self
     __rmul__ = __mul__
     __imul__ = __mul__
     def __div__(self, other):
         """Функция, которая описывает деление нашего объекта на объект other"""
-        new_name = self.name
+
         new_amount = self.amount / float(other)
-        return BaseWallet(new_name, new_amount)
+        self.amount = new_amount
+        return self
     __idiv__ = __div__
     def __eq__(self, other):
         if (self.amount == other.amount) and (isinstance(BaseWallet, other)):
@@ -56,10 +65,9 @@ class BaseWallet(object):
         else:
             return(False)
     def spend_all(self):
-        new_name = self.name
         if (self.amount > 0 ):
-            new_amount = 0
-            return BaseWallet(new_name, new_amount)
+            self.amount = 0
+            return self
     def to_base(self):
         return(self.amount * self.exchange_rate)
 class RubbleWallet(BaseWallet):
