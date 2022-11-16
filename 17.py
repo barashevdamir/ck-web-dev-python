@@ -2,8 +2,6 @@ class BaseWallet:
     def __init__(self, name, amount):
         self.name = name
         self.amount = amount
-    def __str__(self):
-        return ' '.join([type(self) ,self.name, str(self.amount)])
     def __repr__(self):
         """Функция, которая используется для текстового представления объекта в случаях, когда это происходит не
         через функцию str(obj)"""
@@ -63,12 +61,12 @@ class BaseWallet:
     def __imul__(self, other):
         self.amount *= float(other)
         return self
-    def __div__(self, other):
+    def __truediv__(self, other):
         """Функция, которая описывает деление нашего объекта на объект other"""
         new = self._copy()
         new.amount = self.amount / float(other)
         return new
-    def __idiv__(self, other):
+    def __itruediv__(self, other):
         self.amount /= other
         return self
     def __eq__(self, other):
@@ -88,15 +86,21 @@ class RubbleWallet(BaseWallet):
         super(RubbleWallet, self).__init__(name, amount)
     def _copy(self):
         return RubbleWallet(self.name, self.amount)
+    def __str__(self):
+        return f"Rubble Wallet {self.name} {self.amount}"
 class DollarWallet(BaseWallet):
     exchange_rate = 60
     def __init__(self, name: str = "DollarWallet", amount: float = 0):
         super(DollarWallet, self).__init__(name, amount)
     def _copy(self):
         return DollarWallet(self.name, self.amount)
+    def __str__(self):
+        return f"Dollar Wallet {self.name} {self.amount}"
 class EuroWallet(BaseWallet):
     exchange_rate = 70
     def __init__(self, name: str = "EuroWallet", amount: float = 0):
         super(EuroWallet, self).__init__(name, amount)
     def _copy(self):
         return EuroWallet(self.name, self.amount)
+    def __str__(self):
+        return f"Euro Wallet {self.name} {self.amount}"
