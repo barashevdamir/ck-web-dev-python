@@ -1,6 +1,6 @@
 class Calculator:
     last = None
-
+#11
     def __init__(self):
         self.result = []
 
