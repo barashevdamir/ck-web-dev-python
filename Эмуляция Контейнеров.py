@@ -1,12 +1,4 @@
 import re
-# def check_string(string):
-#     phone = re.sub(r'\b\D', '', string)
-#     phone_cleared = re.sub(r'[\ \(]?', '', phone)
-#
-#     if re.findall(r'^[\+7|8|7]*?\d{10}$', phone_cleared) or re.match(r'^\w+[\.]?(\w+)*\@(\w+\.)*\w{2,}$', string):
-#         return (bool(string))
-#     else:
-#         return (False)
 class Field(dict):
     def __init__(self, key, value):
         self.key = key
