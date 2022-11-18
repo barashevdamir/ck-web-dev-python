@@ -13,27 +13,27 @@ class Field(dict):
         self.value = value
     def __repr__(self):
         """Функция, которая используется для текстового представления объекта в случаях, когда это происходит не
-        через функцию str(obj)"""
+        через функцию str(obj) """
         return str(self)
 
-    def check_pattern(key):
-        if (re.findall(r'^[A-Za-z]\w{1}(\d+)$', )):
+    def check_pattern(self, key):
+        if (re.findall(r'^[a-zA-Z]{1}\d{1,}$|^\d{1,}[a-zA-Z]{1}$')):
             return bool(key)
         else:
             return ValueError
-    def check_key (key, value):
+    def check_key (self, key):
         if (type(key) != tuple or type(key != str)):
             return TypeError
         else:
-            if (check_pattern(key)):
+            if (self.check_pattern(key)):
                 if type (key) == tuple:
                     key = ''.join(key)
                 key_low = key.lower()
                 key_frozen = frozenset(key_low)
                 return key_frozen
     def __setitem__(self, key, value):
-        key = check_key(key)
-        super(Field, self).__setitem__(key, value)
+        key_new = self.check_key(key)
+        super(Field, self).__setitem__(key_new, value)
     def __delitem__(self, key, value):
         super(Field, self).__delitem__(key)
     def __missing__(self, key, value):
