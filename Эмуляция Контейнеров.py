@@ -69,6 +69,7 @@ class Field(dict):
         if self.check_key(key) == ValueError or self.check_key(key) == TypeError:
             raise self.check_key(key)
         super(Field, self).__setitem__(key, value)
+        dict.__setitem__(self, key, value)
         #self.storage[self.normalize(key)] = self.value
     def __delitem__(self, key, value):
         super(Field, self).__delitem__(key)
@@ -76,5 +77,3 @@ class Field(dict):
         return True
     def __contains__(self, item):
         return self[item] != self.__missing__(1)
-field = Field()
-field[1, 'a'] = 25
