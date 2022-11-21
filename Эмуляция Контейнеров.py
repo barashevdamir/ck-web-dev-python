@@ -69,6 +69,7 @@ class Field(dict):
         if self.check_key(key) == ValueError or self.check_key(key) == TypeError:
             raise self.check_key(key)
         super(Field, self).__setitem__(key, value)
+        #self.storage[self.normalize(key)] = self.value
     def __delitem__(self, key, value):
         super(Field, self).__delitem__(key)
     def __missing__(self, key):
