@@ -71,7 +71,9 @@ class Field(dict):
         super(Field, self).__setitem__(key, value)
     def __delitem__(self, key, value):
         super(Field, self).__delitem__(key)
-    def __missing__(self, key, value):
-        return False
+    def __missing__(self, key):
+        return True
     def __contains__(self, item):
         return self[item] != self.__missing__(1)
+field = Field()
+field[1, 'a'] = 25
