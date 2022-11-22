@@ -1,5 +1,4 @@
 import re
-
 def convert_tuple(c_tuple):
   my_str=''
   for i in c_tuple:
@@ -48,9 +47,11 @@ class Field(dict):
     def __iter__(self):
         for k, v in self.items():
             yield v
-    def __getattribute__(self, item):
-
     def __setattr__(self, key, value):
-
-    def __getattribute__(self, item):
-
+        key = self.key_normalize(key)
+        super(Field, self).__setattr__(key, value)
+    # def __getattribute__(self, key):
+field = Field()
+#field.abcde = 125
+field.a1 = 25
+print(field['a1'])
