@@ -47,11 +47,19 @@ class Field(dict):
     def __iter__(self):
         for k, v in self.items():
             yield v
-    def __setattr__(self, key, value):
-        key = self.key_normalize(key)
-        super(Field, self).__setattr__(key, value)
-    # def __getattribute__(self, key):
+    def __getattr__(self, attr):
+        return super(Field, self).__getitem__(self.key_normalize(attr))
+    def __setattr__(self, attr, value):
+         comp_pat1 = re.compile(r'[a-zA-Z]\d+$')
+         comp_pat2 = re.compile(r'\d+[a-zA-Z]$')
+         if comp_pat1.match(attr) or comp_pat2.match(attr):
+             self.__setitem__(self.key_normalize(attr), value)
+         else:
+            self.__dict__[attr] = value
+    def __delattr__(self, attr):
+        return super(Field, self).__delitem__(self.key_normalize(attr))
 field = Field()
-#field.abcde = 125
-field.a1 = 25
-print(field['a1'])
+field.abcde = 125
+field['a1'] = 225
+print(field.A1)
+print(field.abcde, field.__dict__['abcde'] == 125)
