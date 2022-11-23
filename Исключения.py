@@ -1,9 +1,9 @@
 import datetime
 import json
-from api import register_booking
+#from api import register_booking
 class Booking:
     def __init__(self, room_name, startDate, endDate):
-        if (endDate <= startDate):
+        if (endDate < startDate):
             raise ValueError
         else:
             self.room_name = room_name
@@ -35,8 +35,8 @@ def create_booking(room_name, start, end):
     print (booking.duration)
     try:
         print("Начинаем создание бронирования")
-        result = register_booking(booking)
-        #result = True
+        #result = register_booking(booking)
+        result = False
     except KeyError:
         msg = 'Комната не найдена'
     else:
@@ -48,11 +48,13 @@ def create_booking(room_name, start, end):
         print("Заканчиваем создание бронирования")
         my_json = json.dumps({'created': result, 'msg': msg, 'booking': booking.__dict__}, ensure_ascii=False)
         return my_json
-# create_booking(
-#     "Вагнер",
-#     datetime.datetime(2022, 9, 1, 14),
-#     datetime.datetime(2022, 9, 1, 15, 15)
-# )
+
+result = create_booking(
+    "Вагнер",
+    datetime.datetime(2022, 9, 1, 14),
+    datetime.datetime(2022, 9, 1, 15, 15)
+)
+print(result)
 
 
 
