@@ -1,51 +1,57 @@
 import datetime
 import json
 #from api import register_booking
-
-def register_booking(booking):
-    pass
-
-class Booking(dict):
-    def __init__(self, room_name, start, end):
-        if (end < start):
+class Booking:
+    def __init__(self, room_name, startDate, endDate):
+        if (endDate <= startDate):
             raise ValueError
         else:
             self.room_name = room_name
-            self.start = start
-            self.end = end
-    @property
-    def duration(self):
-        return int((self.end - self.start).minutes())
-    def start_date(self):
-        return self.start.date()
-    def end_date(self):
-        return self.start.date()
-    def start_time(self):
-        return self.start.time()
-    def end_time(self):
-        return self.end.time()
-    def create_booking(room_name, start, end) -> str:
-        booking = Booking(room_name, start, end)
-        try:
-            result = register_booking(booking)
-        except KeyError:
-            msg = "Комната не найдена"
+            self.start_date = datetime.datetime.strftime(startDate, "%Y-%m-%d")
+            self.start_time = datetime.datetime.strftime(startDate, "%H:%M")
+            self.end_date = datetime.datetime.strftime(endDate, "%Y-%m-%d")
+            self.end_time = datetime.datetime.strftime(endDate, "%H:%M")
+            self.duration = int((endDate - endDate).seconds // 60)
+    start = property()
+    @start.setter
+    def start(self, value):
+        value = datetime.datetime.strftime(value, "%H:%M")
+        if value < self.end_time:
+            self.start_time = value
+            self.duration = int((datetime.datetime.strptime(self.end_time, "%H:%M") - datetime.datetime.strptime(self.start_time, "%H:%M")).seconds // 60)
         else:
-            if result == True:
-                msg = "Бронирование создано"
-            if result == False:
-                msg = "Комната занята"
-        finally:
-            print("Начинаем создание бронирования")
-            print("Заканчиваем создание бронирования")
-        data = []
-        data.append("created: {}".format(register_booking(booking)))
-        data.append("msg: {}".format(msg))
-        data.append("booking: {}".format(booking))
-        return json.dumps(data)
-
-
-
+            raise ValueError
+    end = property()
+    @end.setter
+    def end(self, value):
+        value = datetime.datetime.strftime(value, "%H:%M")
+        if value > self.start_time:
+            self.end_time = value
+            self.duration = int((datetime.datetime.strptime(self.end_time, "%H:%M") - datetime.datetime.strptime(self.start_time, "%H:%M")).total_seconds / 60)
+        else:
+            raise ValueError
+def create_booking(room_name, start, end):
+    booking = Booking(room_name, start, end)
+    try:
+        print("Начинаем создание бронирования")
+        #result = register_booking(booking)
+        result = True
+    except KeyError:
+        msg = 'Комната не найдена'
+    else:
+        if result == True:
+            msg = 'Бронирование создано'
+        if result == False:
+            msg = 'Комната занята'
+    finally:
+        print("Заканчиваем создание бронирования")
+        my_json = json.dumps({'created': result, 'msg': msg, 'booking': booking.__dict__})
+        return my_json
+print(create_booking(
+    "Вагнер",
+    datetime.datetime(2022, 9, 1, 14),
+    datetime.datetime(2022, 9, 1, 15, 15)
+))
 
 
 
