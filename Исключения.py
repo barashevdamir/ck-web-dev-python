@@ -1,6 +1,6 @@
 import datetime
 import json
-#from api import register_booking
+from api import register_booking
 class Booking:
     def __init__(self, room_name, startDate, endDate):
         if (endDate <= startDate):
@@ -11,7 +11,7 @@ class Booking:
             self.start_time = datetime.datetime.strftime(startDate, "%H:%M")
             self.end_date = datetime.datetime.strftime(endDate, "%Y-%m-%d")
             self.end_time = datetime.datetime.strftime(endDate, "%H:%M")
-            self.duration = int((endDate - endDate).seconds // 60)
+            self.duration = int((endDate - startDate).seconds // 60)
     start = property()
     @start.setter
     def start(self, value):
@@ -32,10 +32,11 @@ class Booking:
             raise ValueError
 def create_booking(room_name, start, end):
     booking = Booking(room_name, start, end)
+    print (booking.duration)
     try:
         print("Начинаем создание бронирования")
-        #result = register_booking(booking)
-        result = True
+        result = register_booking(booking)
+        #result = True
     except KeyError:
         msg = 'Комната не найдена'
     else:
@@ -47,11 +48,11 @@ def create_booking(room_name, start, end):
         print("Заканчиваем создание бронирования")
         my_json = json.dumps({'created': result, 'msg': msg, 'booking': booking.__dict__}, ensure_ascii=False)
         return my_json
-print(create_booking(
-    "Вагнер",
-    datetime.datetime(2022, 9, 1, 14),
-    datetime.datetime(2022, 9, 1, 15, 15)
-))
+# create_booking(
+#     "Вагнер",
+#     datetime.datetime(2022, 9, 1, 14),
+#     datetime.datetime(2022, 9, 1, 15, 15)
+# )
 
 
 
