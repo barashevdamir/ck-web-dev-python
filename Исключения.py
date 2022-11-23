@@ -45,7 +45,7 @@ def create_booking(room_name, start, end):
             msg = 'Комната занята'
     finally:
         print("Заканчиваем создание бронирования")
-        my_json = json.dumps({'created': result, 'msg': msg, 'booking': booking.__dict__})
+        my_json = json.dumps({'created': result, 'msg': msg, 'booking': booking.__dict__}, ensure_ascii=False)
         return my_json
 print(create_booking(
     "Вагнер",
