@@ -1,7 +1,7 @@
 import requests
 import json
 import urllib.parse
-
+import pickle
 def posts_count(json_string, id):
     count = 0
     for x in json_string :
@@ -14,8 +14,6 @@ def comments_count(json_string, email):
         if x["email"] == email:
             count += 1
     return count
-BASE_URL = "https://webhook.site/ee6c9327-f6ba-4e69-84e5-1a7dba0cc18a"
-
 users = requests.get('https://jsonplaceholder.typicode.com/users')
 posts = requests.get('https://jsonplaceholder.typicode.com/posts')
 comments = requests.get('https://jsonplaceholder.typicode.com/comments')
@@ -31,6 +29,7 @@ for x in users.json():
     res = res.fromkeys(res, 0)
 result = {'statistics': r}
 __response = json.dumps(result)
-
 BASE_URL = "https://webhook.site/ee6c9327-f6ba-4e69-84e5-1a7dba0cc18a"
-urllib.request.urlopen(BASE_URL, __response).close()
+response = requests.post(BASE_URL, json = __response)
+with open("solution.pickle", 'wb') as f:
+    pickle.dump(response, f)
