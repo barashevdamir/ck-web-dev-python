@@ -26,10 +26,11 @@ for x in users.json():
     res['posts'] = posts_count(posts.json(), x['id'])
     res['comments'] = comments_count(comments.json(), x['email'])
     r.append(res)
-    res = res.fromkeys(res, 0)
+    res = {}
 result = {'statistics': r}
 __response = json.dumps(result)
+print(__response)
 BASE_URL = "https://webhook.site/ee6c9327-f6ba-4e69-84e5-1a7dba0cc18a"
-response = requests.post(BASE_URL, json = __response)
+response = requests.post(BASE_URL, data=__response)
 with open("solution.pickle", 'wb') as f:
     pickle.dump(response, f)
